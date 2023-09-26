@@ -50,6 +50,7 @@ annotation-cache/downloadvepcache was originally written by Maxime U Garcia.
 
 We thank the following people for their extensive assistance in the development of this pipeline:
 
+- @adamrtalbot
 - @FriederikeHanssen
 
 ## Contributions and Support
