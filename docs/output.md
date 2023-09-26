@@ -18,7 +18,7 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
 [VEP (Variant Effect Predictor)](https://www.ensembl.org/info/docs/tools/vep/index.html), based on `Ensembl`, is a tool to determine the effects of all sorts of variants, including SNPs, indels, structural variants, CNVs.
 For further reading and documentation see the [VEP manual](https://www.ensembl.org/info/docs/tools/vep/index.html).
 
-The output folder will contain the vep cache files for the specified genome.
+The output folder will contain the VEP cache files for the specified genome.
 
 ### Pipeline information
 
