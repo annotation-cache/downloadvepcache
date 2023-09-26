@@ -8,7 +8,17 @@
                     "ensemblvep/download": {
                         "branch": "master",
                         "git_sha": "9f9e1fc31cb35876922070c0e601ae05abae5cae",
-                        "installed_by": ["modules"]
+                        "installed_by": ["modules"],
+                        "patch": "modules/nf-core/ensemblvep/download/ensemblvep-download.diff"
+                    }
+                }
+            },
+            "subworkflows": {
+                "nf-core": {
+                    "initialise": {
+                        "branch": "master",
+                        "git_sha": "2a3d1b469385914c4eeca70f36bc378473049d93",
+                        "installed_by": ["subworkflows"]
                     }
                 }
             }
