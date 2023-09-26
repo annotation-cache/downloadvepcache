@@ -43,7 +43,7 @@ with `params.yaml` containing:
 
 ```yaml
 outdir: './results/'
-genome: 'GRCh37'
+genome: 'GRCh38'
 <...>
 ```
 
