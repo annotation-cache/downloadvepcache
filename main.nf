@@ -11,14 +11,13 @@ nextflow.enable.dsl = 2
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    GENOME PARAMETER VALUES
+    REFERENCE GENOME
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-// TODO nf-core: Remove this line if you don't need a FASTA file
-//   This is an example of how to use getGenomeAttribute() to fetch parameters
-//   from igenomes.config using `--genome`
-params.fasta = WorkflowMain.getGenomeAttribute(params, 'fasta')
+params.vep_cache_version = WorkflowMain.getGenomeAttribute(params, 'vep_cache_version')
+params.vep_genome        = WorkflowMain.getGenomeAttribute(params, 'vep_genome')
+params.vep_species       = WorkflowMain.getGenomeAttribute(params, 'vep_species')
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -26,23 +25,7 @@ params.fasta = WorkflowMain.getGenomeAttribute(params, 'fasta')
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { validateParameters; paramsHelp } from 'plugin/nf-validation'
-
-// Print help message if needed
-if (params.help) {
-    def logo = NfcoreTemplate.logo(workflow, params.monochrome_logs)
-    def citation = '\n' + WorkflowMain.citation(workflow) + '\n'
-    def String command = "nextflow run ${workflow.manifest.name} --input samplesheet.csv --genome GRCh37 -profile docker"
-    log.info logo + paramsHelp(command) + citation + NfcoreTemplate.dashedLine(params.monochrome_logs)
-    System.exit(0)
-}
-
-// Validate input parameters
-if (params.validate_params) {
-    validateParameters()
-}
-
-WorkflowMain.initialise(workflow, params, log)
+include { INITIALISE } from './subworkflows/nf-core/initialise/main'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -56,7 +39,10 @@ include { DOWNLOADVEPCACHE } from './workflows/downloadvepcache'
 // WORKFLOW: Run main annotation-cache/downloadvepcache analysis pipeline
 //
 workflow ANNOTATIONCACHE_DOWNLOADVEPCACHE {
-    DOWNLOADVEPCACHE ()
+    INITIALISE ( params.version, params.help, [] )
+
+    DOWNLOADVEPCACHE ( Channel.of([ [ id:"${params.vep_cache_version}_${params.vep_genome}" ], params.vep_genome, params.vep_species, params.vep_cache_version ]) )
+
 }
 
 /*
@@ -71,6 +57,18 @@ workflow ANNOTATIONCACHE_DOWNLOADVEPCACHE {
 //
 workflow {
     ANNOTATIONCACHE_DOWNLOADVEPCACHE ()
+}
+
+// COMPLETION EMAIL AND SUMMARY
+workflow.onComplete {
+    if (params.email || params.email_on_fail) {
+        NfcoreTemplate.email(workflow, params, summary_params, projectDir, log, multiqc_report)
+    }
+    NfcoreTemplate.dump_parameters(workflow, params)
+    NfcoreTemplate.summary(workflow, params, log)
+    if (params.hook_url) {
+        NfcoreTemplate.IM_notification(workflow, params, summary_params, projectDir, log)
+    }
 }
 
 /*
