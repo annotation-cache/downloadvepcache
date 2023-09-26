@@ -19,7 +19,7 @@ process ENSEMBLVEP_DOWNLOAD {
 
     script:
     def args = task.ext.args ?: ''
-    prefix = task.ext.prefix ?: ''
+    prefix = task.ext.prefix ?: 'vep_cache'
     """
     vep_install \\
         --CACHEDIR $prefix \\
