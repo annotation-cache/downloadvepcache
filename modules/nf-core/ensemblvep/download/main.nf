@@ -35,6 +35,7 @@ process ENSEMBLVEP_DOWNLOAD {
     """
 
     stub:
+    prefix = task.ext.prefix ?: 'vep_cache'
     """
     mkdir $prefix
 

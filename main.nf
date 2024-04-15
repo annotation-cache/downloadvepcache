@@ -83,8 +83,7 @@ workflow {
     //
     // WORKFLOW: Run main workflow
     //
-    ANNOTATIONCACHE_DOWNLOADVEPCACHE(
-    )
+    ANNOTATIONCACHE_DOWNLOADVEPCACHE()
 
     //
     // SUBWORKFLOW: Run completion tasks
