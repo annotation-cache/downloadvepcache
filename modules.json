@@ -7,7 +7,7 @@
                 "nf-core": {
                     "ensemblvep/download": {
                         "branch": "master",
-                        "git_sha": "9f9e1fc31cb35876922070c0e601ae05abae5cae",
+                        "git_sha": "1e6b8886d30f7a7129dcd1ff46ef3a20038294d5",
                         "installed_by": ["modules"],
                         "patch": "modules/nf-core/ensemblvep/download/ensemblvep-download.diff"
                     }

@@ -22,6 +22,7 @@ Changes in module 'nf-core/ensemblvep/download'
 +        ]
 +    }
 +}
+
 --- modules/nf-core/ensemblvep/download/main.nf
 +++ modules/nf-core/ensemblvep/download/main.nf
 @@ -11,17 +11,18 @@
