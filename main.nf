@@ -39,11 +39,7 @@ include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_nfcore_down
 // WORKFLOW: Run main analysis pipeline depending on type of input
 //
 workflow ANNOTATIONCACHE_DOWNLOADVEPCACHE {
-    take:
-    samplesheet // channel: samplesheet read in from --input
-
     main:
-
     //
     // WORKFLOW: Run pipeline
     //
@@ -64,7 +60,6 @@ workflow ANNOTATIONCACHE_DOWNLOADVEPCACHE {
 */
 
 workflow {
-
     main:
 
     //
