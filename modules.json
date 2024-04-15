@@ -15,9 +15,19 @@
             },
             "subworkflows": {
                 "nf-core": {
-                    "initialise": {
+                    "utils_nextflow_pipeline": {
                         "branch": "master",
-                        "git_sha": "2a3d1b469385914c4eeca70f36bc378473049d93",
+                        "git_sha": "5caf7640a9ef1d18d765d55339be751bb0969dfa",
+                        "installed_by": ["subworkflows"]
+                    },
+                    "utils_nfcore_pipeline": {
+                        "branch": "master",
+                        "git_sha": "5caf7640a9ef1d18d765d55339be751bb0969dfa",
+                        "installed_by": ["subworkflows"]
+                    },
+                    "utils_nfvalidation_plugin": {
+                        "branch": "master",
+                        "git_sha": "5caf7640a9ef1d18d765d55339be751bb0969dfa",
                         "installed_by": ["subworkflows"]
                     }
                 }
