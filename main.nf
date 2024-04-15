@@ -15,9 +15,9 @@ nextflow.enable.dsl = 2
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-params.vep_cache_version = WorkflowMain.getGenomeAttribute('vep_cache_version')
-params.vep_genome        = WorkflowMain.getGenomeAttribute('vep_genome')
-params.vep_species       = WorkflowMain.getGenomeAttribute('vep_species')
+params.vep_cache_version = getGenomeAttribute('vep_cache_version')
+params.vep_genome        = getGenomeAttribute('vep_genome')
+params.vep_species       = getGenomeAttribute('vep_species')
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -39,20 +39,15 @@ include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_nfcore_down
 // WORKFLOW: Run main analysis pipeline depending on type of input
 //
 workflow ANNOTATIONCACHE_DOWNLOADVEPCACHE {
-    main:
-    //
-    // WORKFLOW: Run pipeline
-    //
+
     DOWNLOADVEPCACHE(Channel.of([
-        [ id:"${params.vep_cache_version}_${params.vep_genome}" ]
+        [ id:"${params.vep_cache_version}_${params.vep_genome}" ],
         params.vep_genome,
         params.vep_species,
         params.vep_cache_version
     ]))
-
-    emit:
-
 }
+
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     RUN MAIN WORKFLOW
@@ -60,8 +55,6 @@ workflow ANNOTATIONCACHE_DOWNLOADVEPCACHE {
 */
 
 workflow {
-    main:
-
     //
     // SUBWORKFLOW: Run initialisation tasks
     //
@@ -71,8 +64,7 @@ workflow {
         params.validate_params,
         params.monochrome_logs,
         args,
-        params.outdir,
-        params.input
+        params.outdir
     )
 
     //
