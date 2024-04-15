@@ -7,17 +7,26 @@
                 "nf-core": {
                     "ensemblvep/download": {
                         "branch": "master",
-                        "git_sha": "9f9e1fc31cb35876922070c0e601ae05abae5cae",
-                        "installed_by": ["modules"],
-                        "patch": "modules/nf-core/ensemblvep/download/ensemblvep-download.diff"
+                        "git_sha": "3db4f8488315cd7d7cf3fcb64251f6603210e831",
+                        "installed_by": ["modules"]
                     }
                 }
             },
             "subworkflows": {
                 "nf-core": {
-                    "initialise": {
+                    "utils_nextflow_pipeline": {
                         "branch": "master",
-                        "git_sha": "2a3d1b469385914c4eeca70f36bc378473049d93",
+                        "git_sha": "5caf7640a9ef1d18d765d55339be751bb0969dfa",
+                        "installed_by": ["subworkflows"]
+                    },
+                    "utils_nfcore_pipeline": {
+                        "branch": "master",
+                        "git_sha": "5caf7640a9ef1d18d765d55339be751bb0969dfa",
+                        "installed_by": ["subworkflows"]
+                    },
+                    "utils_nfvalidation_plugin": {
+                        "branch": "master",
+                        "git_sha": "5caf7640a9ef1d18d765d55339be751bb0969dfa",
                         "installed_by": ["subworkflows"]
                     }
                 }
