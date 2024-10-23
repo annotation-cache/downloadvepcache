@@ -13,15 +13,12 @@ lint:
     - conf/test_full.config
     - docs/images/nf-core-downloadvepcache_logo_dark.png
     - docs/images/nf-core-downloadvepcache_logo_light.png
-    - lib/WorkflowDownloadvepcache.groovy
   files_unchanged:
-    - CODE_OF_CONDUCT.md
     - assets/nf-core-downloadvepcache_logo_light.png
     - docs/images/nf-core-downloadvepcache_logo_light.png
     - docs/images/nf-core-downloadvepcache_logo_dark.png
-    - .github/ISSUE_TEMPLATE/bug_report.yml
-  multiqc_config:
-    - report_comment
+  multiqc_config: false
+  modules_config: false
   nextflow_config:
     - manifest.name
     - manifest.homePage
@@ -38,6 +35,9 @@ template:
   name: downloadvepcache
   org: annotation-cache
   outdir: .
-  skip_features: []
+  skip_features:
+    - fastqc
+    - igenomes
+    - multiqc
   version: "111"
 update: null
