@@ -7,8 +7,6 @@
 ----------------------------------------------------------------------------------------
 */
 
-nextflow.enable.dsl = 2
-
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     GENOME PARAMETER VALUES
@@ -40,12 +38,21 @@ include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_nfcore_down
 //
 workflow ANNOTATIONCACHE_DOWNLOADVEPCACHE {
 
+    take:
+    id // channel: samplesheet read in from --input
+
+    main:
+
+    //
+    // WORKFLOW: Run pipeline
+    //
     DOWNLOADVEPCACHE(Channel.of([
-        [ id:"${params.vep_cache_version}_${params.vep_genome}" ],
+        [ id:"${id}" ],
         params.vep_genome,
         params.vep_species,
         params.vep_cache_version
     ]))
+
 }
 
 /*
@@ -55,12 +62,13 @@ workflow ANNOTATIONCACHE_DOWNLOADVEPCACHE {
 */
 
 workflow {
+
+    main:
     //
     // SUBWORKFLOW: Run initialisation tasks
     //
     PIPELINE_INITIALISATION(
         params.version,
-        params.help,
         params.validate_params,
         params.monochrome_logs,
         args,
@@ -70,7 +78,7 @@ workflow {
     //
     // WORKFLOW: Run main workflow
     //
-    ANNOTATIONCACHE_DOWNLOADVEPCACHE()
+    ANNOTATIONCACHE_DOWNLOADVEPCACHE("${params.vep_cache_version}_${params.vep_genome}")
 
     //
     // SUBWORKFLOW: Run completion tasks
