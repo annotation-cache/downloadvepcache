@@ -1,13 +1,15 @@
-[![GitHub Actions CI Status](https://github.com/annotation-cache/downloadvepcache/workflows/nf-core%20CI/badge.svg)](https://github.com/annotation-cache/downloadvepcache/actions?query=workflow%3A%22nf-core+CI%22)
-[![GitHub Actions Linting Status](https://github.com/annotation-cache/downloadvepcache/workflows/nf-core%20linting/badge.svg)](https://github.com/annotation-cache/downloadvepcache/actions?query=workflow%3A%22nf-core+linting%22)
+# annotation-cache/downloadvepcache
+
+[![GitHub Actions CI Status](https://github.com/annotation-cache/downloadvepcache/actions/workflows/ci.yml/badge.svg)](https://github.com/annotation-cache/downloadvepcache/actions/workflows/ci.yml)
+[![GitHub Actions Linting Status](https://github.com/annotation-cache/downloadvepcache/actions/workflows/linting.yml/badge.svg)](https://github.com/annotation-cache/downloadvepcache/actions/workflows/linting.yml)
 [![Cite with Zenodo](http://img.shields.io/badge/DOI-10.5281/zenodo.8392946-1073c8?labelColor=000000)](https://doi.org/10.5281/zenodo.8392946)
 [![nf-test](https://img.shields.io/badge/unit_tests-nf--test-337ab7.svg)](https://www.nf-test.com)
 
-[![Nextflow](https://img.shields.io/badge/nextflow%20DSL2-%E2%89%A523.04.0-23aa62.svg)](https://www.nextflow.io/)
+[![Nextflow](https://img.shields.io/badge/nextflow%20DSL2-%E2%89%A524.04.2-23aa62.svg)](https://www.nextflow.io/)
 [![run with conda](http://img.shields.io/badge/run%20with-conda-3EB049?labelColor=000000&logo=anaconda)](https://docs.conda.io/en/latest/)
 [![run with docker](https://img.shields.io/badge/run%20with-docker-0db7ed?labelColor=000000&logo=docker)](https://www.docker.com/)
 [![run with singularity](https://img.shields.io/badge/run%20with-singularity-1d355c.svg?labelColor=000000)](https://sylabs.io/docs/)
-[![Launch on Seqera Platform](https://img.shields.io/badge/Launch%20%F0%9F%9A%80-Seqera%20Platform-%234256e7)](https://tower.nf/launch?pipeline=https://github.com/annotation-cache/downloadvepcache)
+[![Launch on Seqera Platform](https://img.shields.io/badge/Launch%20%F0%9F%9A%80-Seqera%20Platform-%234256e7)](https://cloud.seqera.io/launch?pipeline=https://github.com/annotation-cache/downloadvepcache)
 
 ## Introduction
 
@@ -38,8 +40,7 @@ nextflow run annotation-cache/downloadvepcache \
 ```
 
 > [!WARNING]
-> Please provide pipeline parameters via the CLI or Nextflow `-params-file` option. Custom config files including those provided by the `-c` Nextflow option can be used to provide any configuration _**except for parameters**_;
-> see [docs](https://nf-co.re/usage/configuration#custom-configuration-files).
+> Please provide pipeline parameters via the CLI or Nextflow `-params-file` option. Custom config files including those provided by the `-c` Nextflow option can be used to provide any configuration _**except for parameters**_; see [docs](https://nf-co.re/docs/usage/getting_started/configuration#custom-configuration-files).
 
 ## Credits
 
@@ -60,7 +61,7 @@ If you use annotation-cache/downloadvepcache for your analysis, please cite it u
 
 An extensive list of references for the tools used by the pipeline can be found in the [`CITATIONS.md`](CITATIONS.md) file.
 
-This pipeline uses code and infrastructure developed and maintained by the [nf-core](https://nf-co.re) community, reused here under the [MIT license](https://github.com/nf-core/tools/blob/master/LICENSE).
+This pipeline uses code and infrastructure developed and maintained by the [nf-core](https://nf-co.re) community, reused here under the [MIT license](https://github.com/nf-core/tools/blob/main/LICENSE).
 
 > **The nf-core framework for community-curated bioinformatics pipelines.**
 >
