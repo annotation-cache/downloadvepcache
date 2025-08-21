@@ -3,9 +3,8 @@
     IMPORT MODULES / SUBWORKFLOWS / FUNCTIONS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
-include { paramsSummaryMap       } from 'plugin/nf-schema'
-include { softwareVersionsToYAML } from '../subworkflows/nf-core/utils_nfcore_pipeline'
-include { methodsDescriptionText } from '../subworkflows/local/utils_nfcore_downloadvepcache_pipeline'
+
+include { ENSEMBLVEP_DOWNLOAD } from '../modules/nf-core/ensemblvep/download'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -14,32 +13,13 @@ include { methodsDescriptionText } from '../subworkflows/local/utils_nfcore_down
 */
 
 workflow DOWNLOADVEPCACHE {
-
     take:
-    ch_samplesheet // channel: samplesheet read in from --input
+    ensemblvep_info
+
     main:
-
-    ch_versions = Channel.empty()
-
-    //
-    // Collate and save software versions
-    //
-    softwareVersionsToYAML(ch_versions)
-        .collectFile(
-            storeDir: "${params.outdir}/pipeline_info",
-            name:  'downloadvepcache_software_'  + 'versions.yml',
-            sort: true,
-            newLine: true
-        ).set { ch_collated_versions }
-
+    ENSEMBLVEP_DOWNLOAD(ensemblvep_info)
 
     emit:
-    versions       = ch_versions                 // channel: [ path(versions.yml) ]
-
+    ensemblvep_cache = ENSEMBLVEP_DOWNLOAD.out.cache.collect() // channel: [ meta, cache ]
+    versions         = ENSEMBLVEP_DOWNLOAD.out.versions // channel: [ versions.yml ]
 }
-
-/*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    THE END
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-*/
