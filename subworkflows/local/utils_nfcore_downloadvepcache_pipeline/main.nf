@@ -119,22 +119,17 @@ workflow PIPELINE_COMPLETION {
 // Generate methods description for MultiQC
 //
 def toolCitationText() {
-    // TODO nf-core: Optionally add in-text citation tools to this list.
-    // Can use ternary operators to dynamically construct based conditions, e.g. params["run_xyz"] ? "Tool (Foo et al. 2023)" : "",
-    // Uncomment function in methodsDescriptionText to render in MultiQC report
     def citation_text = [
         "Tools used in the workflow included:",
-        ".",
+        "EnsemblVEP (McLaren et al. 2016)",
     ].join(' ').trim()
 
     return citation_text
 }
 
 def toolBibliographyText() {
-    // TODO nf-core: Optionally add bibliographic entries to this list.
-    // Can use ternary operators to dynamically construct based conditions, e.g. params["run_xyz"] ? "<li>Author (2023) Pub name, Journal, DOI</li>" : "",
-    // Uncomment function in methodsDescriptionText to render in MultiQC report
     def reference_text = [
+        "McLaren W, Gil L, Hunt SE, et al.: The Ensembl Variant Effect Predictor. Genome Biol. 2016 Jun 6;17(1):122. doi: 10.1186/s13059-016-0974-4. PubMed PMID: 27268795; PubMed Central PMCID: PMC4893825."
     ].join(' ').trim()
 
     return reference_text
@@ -167,10 +162,8 @@ def methodsDescriptionText(mqc_methods_yaml) {
     meta["tool_citations"] = ""
     meta["tool_bibliography"] = ""
 
-    // TODO nf-core: Only uncomment below if logic in toolCitationText/toolBibliographyText has been filled!
-    // meta["tool_citations"] = toolCitationText().replaceAll(", \\.", ".").replaceAll("\\. \\.", ".").replaceAll(", \\.", ".")
-    // meta["tool_bibliography"] = toolBibliographyText()
-
+    meta["tool_citations"] = toolCitationText().replaceAll(", \\.", ".").replaceAll("\\. \\.", ".").replaceAll(", \\.", ".")
+    meta["tool_bibliography"] = toolBibliographyText()
 
     def methods_text = mqc_methods_yaml.text
 
