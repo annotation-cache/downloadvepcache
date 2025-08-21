@@ -7,12 +7,6 @@
 ----------------------------------------------------------------------------------------
 */
 
-/*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    GENOME PARAMETER VALUES
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-*/
-
 params.vep_cache_version = getGenomeAttribute('vep_cache_version')
 params.vep_genome        = getGenomeAttribute('vep_genome')
 params.vep_species       = getGenomeAttribute('vep_species')
@@ -26,6 +20,7 @@ params.vep_species       = getGenomeAttribute('vep_species')
 include { DOWNLOADVEPCACHE        } from './workflows/downloadvepcache'
 include { PIPELINE_INITIALISATION } from './subworkflows/local/utils_nfcore_downloadvepcache_pipeline'
 include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_nfcore_downloadvepcache_pipeline'
+include { softwareVersionsToYAML  } from './subworkflows/nf-core/utils_nfcore_pipeline'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -37,22 +32,23 @@ include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_nfcore_down
 // WORKFLOW: Run main analysis pipeline depending on type of input
 //
 workflow ANNOTATIONCACHE_DOWNLOADVEPCACHE {
-
     take:
     id // channel: samplesheet read in from --input
 
     main:
+    DOWNLOADVEPCACHE(
+        Channel.of(
+            [
+                [id: "${id}"],
+                params.vep_genome,
+                params.vep_species,
+                params.vep_cache_version,
+            ]
+        )
+    )
 
-    //
-    // WORKFLOW: Run pipeline
-    //
-    DOWNLOADVEPCACHE(Channel.of([
-        [ id:"${id}" ],
-        params.vep_genome,
-        params.vep_species,
-        params.vep_cache_version
-    ]))
-
+    emit:
+    versions = DOWNLOADVEPCACHE.out.versions // channel: [ versions.yml ]
 }
 
 /*
@@ -62,23 +58,22 @@ workflow ANNOTATIONCACHE_DOWNLOADVEPCACHE {
 */
 
 workflow {
-
-    main:
     //
     // SUBWORKFLOW: Run initialisation tasks
     //
     PIPELINE_INITIALISATION(
         params.version,
         params.validate_params,
-        params.monochrome_logs,
         args,
-        params.outdir
+        params.outdir,
     )
 
     //
     // WORKFLOW: Run main workflow
     //
     ANNOTATIONCACHE_DOWNLOADVEPCACHE("${params.vep_cache_version}_${params.vep_genome}")
+
+    softwareVersionsToYAML(ANNOTATIONCACHE_DOWNLOADVEPCACHE.out.versions).collectFile(storeDir: "${params.outdir}/pipeline_info", name: 'downloadvepcache_software_versions.yml', sort: true, newLine: true)
 
     //
     // SUBWORKFLOW: Run completion tasks
@@ -89,7 +84,7 @@ workflow {
         params.plaintext_email,
         params.outdir,
         params.monochrome_logs,
-        params.hook_url
+        params.hook_url,
     )
 }
 
@@ -105,15 +100,9 @@ workflow {
 
 def getGenomeAttribute(attribute) {
     if (params.genomes && params.genome && params.genomes.containsKey(params.genome)) {
-        if (params.genomes[ params.genome ].containsKey(attribute)) {
-            return params.genomes[ params.genome ][ attribute ]
+        if (params.genomes[params.genome].containsKey(attribute)) {
+            return params.genomes[params.genome][attribute]
         }
     }
     return null
 }
-
-/*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    THE END
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-*/

@@ -4,7 +4,7 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { ENSEMBLVEP_DOWNLOAD } from '../modules/nf-core/ensemblvep/download/main'
+include { ENSEMBLVEP_DOWNLOAD } from '../modules/nf-core/ensemblvep/download'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -20,6 +20,6 @@ workflow DOWNLOADVEPCACHE {
     ENSEMBLVEP_DOWNLOAD(ensemblvep_info)
 
     emit:
-    ensemblvep_cache = ENSEMBLVEP_DOWNLOAD.out.cache.collect()  // channel: [ meta, cache ]
-    versions         = ENSEMBLVEP_DOWNLOAD.out.versions         // channel: [ versions.yml ]
+    ensemblvep_cache = ENSEMBLVEP_DOWNLOAD.out.cache.collect() // channel: [ meta, cache ]
+    versions         = ENSEMBLVEP_DOWNLOAD.out.versions // channel: [ versions.yml ]
 }

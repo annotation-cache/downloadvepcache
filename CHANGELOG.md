@@ -3,7 +3,13 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [113](https://github.com/annotation-cache/downloadvepcache/releases/tag/113) - Burgundy Beret
+## [114.2](https://github.com/annotation-cache/downloadvepcache/releases/tag/114.2) - Beige Blouse
+
+- [#11](https://github.com/annotation-cache/downloadvepcache/pull/11) - Template update for nf-core/tools version 3.3.2
+- [#12](https://github.com/annotation-cache/downloadvepcache/pull/12) - Prepare for `114` version of the cache, with VEP `114.2`
+- [#14](https://github.com/annotation-cache/downloadvepcache/pull/14) - Minor code polishing
+
+## [113](https://github.com/annotation-cache/downloadvepcache/releases/tag/113) - Burgundy Béret
 
 - [#8](https://github.com/annotation-cache/downloadvepcache/pull/8) - Back to dev
 - [#8](https://github.com/annotation-cache/downloadvepcache/pull/8) - Template update for nf-core/tools version 3.0.2
