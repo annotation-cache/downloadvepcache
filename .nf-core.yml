@@ -1,31 +1,20 @@
-bump_version: null
 lint:
-  actions_ci: false
+  actions_awsfulltest: false
   files_exist:
     - .github/ISSUE_TEMPLATE/config.yml
-    - .github/workflows/awsfulltest.yml
-    - .github/workflows/awstest.yml
     - CODE_OF_CONDUCT.md
-    - assets/multiqc_config.yml
     - assets/nf-core-downloadvepcache_logo_light.png
-    - conf/igenomes.config
     - conf/modules.config
     - conf/test_full.config
     - docs/images/nf-core-downloadvepcache_logo_dark.png
     - docs/images/nf-core-downloadvepcache_logo_light.png
-  files_unchanged:
-    - assets/nf-core-downloadvepcache_logo_light.png
-    - docs/images/nf-core-downloadvepcache_logo_light.png
-    - docs/images/nf-core-downloadvepcache_logo_dark.png
-  multiqc_config: false
   modules_config: false
+  multiqc_config: false
   nextflow_config:
     - manifest.name
     - manifest.homePage
     - params.input
-  schema_lint: false
-nf_core_version: 3.0.2
-org_path: null
+nf_core_version: 3.3.2
 repository_type: pipeline
 template:
   author: Maxime U Garcia
@@ -39,5 +28,5 @@ template:
     - fastqc
     - igenomes
     - multiqc
-  version: "111"
-update: null
+    - seqera_platform
+  version: "113.4dev"
