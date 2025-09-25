@@ -3,6 +3,13 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [115.0](https://github.com/annotation-cache/downloadvepcache/releases/tag/115.0) - Crimson Chaussettes
+
+- [#15](https://github.com/annotation-cache/downloadvepcache/pull/15) - Update `ensemblvep/download` to `115.0`
+- [#17](https://github.com/annotation-cache/downloadvepcache/pull/17) - Minor code polishing
+- [#17](https://github.com/annotation-cache/downloadvepcache/pull/17) - Prepare for `115` version of the cache, with VEP `115.0`
+- [#18](https://github.com/annotation-cache/downloadvepcache/pull/18) - Fix pipeline version
+
 ## [114.2](https://github.com/annotation-cache/downloadvepcache/releases/tag/114.2) - Beige Blouse
 
 - [#11](https://github.com/annotation-cache/downloadvepcache/pull/11) - Template update for nf-core/tools version 3.3.2
@@ -24,11 +31,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - [#2](https://github.com/annotation-cache/downloadvepcache/pull/2) - Build for `110` version of the cache, with VEP `110.0`
 - [#1](https://github.com/annotation-cache/downloadvepcache/pull/1) - Initial release of annotation-cache/downloadvepcache, created with the [nf-core](https://nf-co.re/) template.
-
-### `Added`
-
-### `Fixed`
-
-### `Dependencies`
-
-### `Deprecated`
