@@ -10,6 +10,10 @@
 
 ## Pipeline tools
 
+- [EnsemblVEP](https://pubmed.ncbi.nlm.nih.gov/27268795/)
+
+  > McLaren W, Gil L, Hunt SE, et al.: The Ensembl Variant Effect Predictor. Genome Biol. 2016 Jun 6;17(1):122. doi: 10.1186/s13059-016-0974-4. PubMed PMID: 27268795; PubMed Central PMCID: PMC4893825.
+
 ## Software packaging/containerisation tools
 
 - [Anaconda](https://anaconda.com)
