@@ -4,7 +4,7 @@
             1,
             {
                 "ENSEMBLVEP_DOWNLOAD": {
-                    "ensemblvep": 115.2
+                    "ensemblvep": "115.2"
                 }
             },
             [
@@ -152,6 +152,6 @@
             "nf-test": "0.9.3",
             "nextflow": "25.10.2"
         },
-        "timestamp": "2026-01-07T16:52:03.567127221"
+        "timestamp": "2026-01-08T10:24:31.645806892"
     }
 }
