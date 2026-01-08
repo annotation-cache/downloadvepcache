@@ -58,7 +58,7 @@ workflow {
     )
 
     softwareVersionsToYAML(
-        softwareVersions: ANNOTATIONCACHE_DOWNLOADVEPCACHE.out.versions.mix(channel.topic("versions")),
+        softwareVersions: channel.topic("versions"),
         nextflowVersion: workflow.nextflow.version,
     ).collectFile(
         storeDir: "${params.outdir}/pipeline_info",
@@ -117,6 +117,5 @@ workflow ANNOTATIONCACHE_DOWNLOADVEPCACHE {
     )
 
     emit:
-    cache    = ENSEMBLVEP_DOWNLOAD.out.cache.collect() // channel: [ meta, cache ]
-    versions = ENSEMBLVEP_DOWNLOAD.out.versions // channel: [ versions.yml ]
+    cache = ENSEMBLVEP_DOWNLOAD.out.cache.collect() // channel: [ meta, cache ]
 }
