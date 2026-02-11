@@ -46,7 +46,7 @@ process VERIFY_TARBALL_CHECKSUM {
 
     # Extract expected checksum for our tarball
     # Format varies: "checksum blockcount filename" or "checksum blockcount path filename"
-    EXPECTED=\$(grep "${tarball}" CHECKSUMS | awk '{print \$1}')
+    EXPECTED=\$(grep -w "${tarball}" CHECKSUMS | awk '{print \$1}')
     if [ -z "\${EXPECTED}" ]; then
         echo "ERROR: Tarball ${tarball} not found in CHECKSUMS file" >&2
         exit 1
