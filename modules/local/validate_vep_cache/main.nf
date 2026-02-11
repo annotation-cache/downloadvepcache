@@ -44,7 +44,7 @@ process VALIDATE_VEP_CACHE {
         fi
     done < ${expected_chromosomes}
 
-    find -L "${cache_dir}" -type f | sort | xargs md5sum > manifest.md5
+    find -L "${cache_dir}" -type f -exec md5sum {} + | sort > manifest.md5
 
     printf "VEP Cache Validation Report\\n" > validation_report.txt
     printf "===========================\\n" >> validation_report.txt
