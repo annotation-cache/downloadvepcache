@@ -9,7 +9,7 @@ process VALIDATE_VEP_CACHE {
 
     input:
     tuple val(meta), path(cache_dir), val(assembly), val(species), val(cache_version)
-    tuple val(meta2), path(expected_chromosomes)
+    tuple val(_), path(expected_chromosomes)
 
     output:
     tuple val(meta), path(cache_dir),        emit: cache
