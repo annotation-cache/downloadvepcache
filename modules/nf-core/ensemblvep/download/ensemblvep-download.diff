@@ -1,0 +1,9 @@
+Changes in component 'nf-core/ensemblvep/download'
+'modules/nf-core/ensemblvep/download/environment.yml' is unchanged
+'modules/nf-core/ensemblvep/download/nextflow.config' was created
+'modules/nf-core/ensemblvep/download/meta.yml' is unchanged
+'modules/nf-core/ensemblvep/download/main.nf' is unchanged
+'modules/nf-core/ensemblvep/download/tests/main.nf.test.snap' was removed
+'modules/nf-core/ensemblvep/download/tests/nextflow.config' was removed
+'modules/nf-core/ensemblvep/download/tests/main.nf.test' was removed
+************************************************************
