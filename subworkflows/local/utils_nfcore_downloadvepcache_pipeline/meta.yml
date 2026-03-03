@@ -1,0 +1,57 @@
+name: utils_nfcore_downloadvepcache_pipeline
+description: |
+  Subworkflow with functionality specific to the annotation-cache/downloadvepcache pipeline.
+  Includes pipeline initialization with parameter validation and help text, and pipeline completion notifications.
+keywords:
+  - pipeline
+  - initialization
+  - completion
+  - parameters
+  - validation
+input:
+  - version:
+      type: boolean
+      description: Display version and exit
+  - validate_params:
+      type: boolean
+      description: Boolean whether to validate parameters against the schema at runtime
+  - nextflow_cli_args:
+      type: array
+      description: List of positional nextflow CLI args
+  - outdir:
+      type: string
+      description: The output directory where the results will be saved
+  - input:
+      type: string
+      description: Path to input samplesheet
+  - help:
+      type: boolean
+      description: Display help message and exit
+  - help_full:
+      type: boolean
+      description: Show the full help message
+  - show_hidden:
+      type: boolean
+      description: Show hidden parameters in the help message
+  - email:
+      type: string
+      description: Email address for completion notifications
+  - email_on_fail:
+      type: string
+      description: Email address for pipeline failure notifications
+  - plaintext_email:
+      type: boolean
+      description: Send plain-text email instead of HTML
+  - monochrome_logs:
+      type: boolean
+      description: Disable ANSI colour codes in log output
+  - hook_url:
+      type: string
+      description: Hook URL for notifications
+output:
+  - versions:
+      type: file
+      description: File containing software versions
+      pattern: "versions.yml"
+authors:
+  - "@annotation-cache"
