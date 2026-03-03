@@ -4,7 +4,8 @@
             1,
             {
                 "ENSEMBLVEP_DOWNLOAD": {
-                    "ensemblvep": "115.2"
+                    "ensemblvep": "115.2",
+                    "perl-math-cdf": ""
                 }
             },
             [
