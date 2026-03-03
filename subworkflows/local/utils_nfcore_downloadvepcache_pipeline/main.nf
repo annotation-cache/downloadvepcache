@@ -9,7 +9,6 @@
 */
 
 include { checkCondaChannels   } from 'plugin/nf-core-utils'
-include { checkConfigProvided  } from 'plugin/nf-core-utils'
 include { checkProfileProvided } from 'plugin/nf-core-utils'
 include { completionEmail      } from 'plugin/nf-core-utils'
 include { completionSummary    } from 'plugin/nf-core-utils'
@@ -20,7 +19,6 @@ include { imNotification       } from 'plugin/nf-core-utils'
 include { paramsHelp           } from 'plugin/nf-schema'
 include { paramsSummaryLog     } from 'plugin/nf-schema'
 include { paramsSummaryMap     } from 'plugin/nf-schema'
-include { samplesheetToList    } from 'plugin/nf-schema'
 include { validateParameters   } from 'plugin/nf-schema'
 
 /*
