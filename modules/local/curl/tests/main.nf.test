@@ -1,0 +1,59 @@
+nextflow_process {
+
+    name "Test Process CURL"
+    script "../main.nf"
+    process "CURL"
+    config "./nextflow.config"
+
+    tag "modules"
+    tag "modules_local"
+    tag "curl"
+
+    test("CURL download cache for 115_WBcel235") {
+
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [id:"115_WBcel235"],
+                    params.vep_genome,
+                    params.vep_species,
+                    params.vep_cache_version
+                ])
+                """
+            }
+        }
+
+        then {
+            assert process.success
+            assertAll(
+                { assert snapshot(sanitizeOutput(process.out)).match() }
+            )
+        }
+    }
+
+    test("CURL download cache for 115_WBcel235 - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [id:"115_WBcel235"],
+                    params.vep_genome,
+                    params.vep_species,
+                    params.vep_cache_version
+                ])
+                """
+            }
+        }
+
+        then {
+            assert process.success
+            assertAll(
+                { assert snapshot(sanitizeOutput(process.out)).match() }
+            )
+        }
+    }
+}

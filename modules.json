@@ -1,17 +1,5 @@
 {
     "name": "annotation-cache/downloadvepcache",
     "homePage": "https://github.com/annotation-cache/downloadvepcache",
-    "repos": {
-        "https://github.com/nf-core/modules.git": {
-            "modules": {
-                "nf-core": {
-                    "ensemblvep/download": {
-                        "branch": "master",
-                        "git_sha": "90cdd21fd96ccbdb3bc90797ca69570d18391055",
-                        "installed_by": ["modules"]
-                    }
-                }
-            }
-        }
-    }
+    "repos": {}
 }

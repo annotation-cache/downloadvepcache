@@ -4,5 +4,4 @@ channels:
   - conda-forge
   - bioconda
 dependencies:
-  - bioconda::ensembl-vep=115.2
-  - bioconda::perl-math-cdf=0.1
+  - conda-forge::curl

@@ -1,0 +1,61 @@
+name: curl
+description: Download Ensembl VEP cache via curl with checksum verification.
+keywords:
+  - annotation
+  - cache
+  - download
+tools:
+  - curl:
+      description: |
+        Command-line tool for transferring data with URLs. Used here to download
+        Ensembl VEP indexed cache archives and verify their integrity.
+      homepage: https://curl.se/
+      documentation: https://curl.se/docs/
+      licence:
+        - "MIT"
+      identifier: ""
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. [ id:'test', single_end:false ]
+    - assembly:
+        type: string
+        description: |
+          Genome assembly
+    - species:
+        type: string
+        description: |
+          Species
+    - cache_version:
+        type: string
+        description: |
+          Cache version
+output:
+  cache:
+    - - meta:
+          type: file
+          description: cache
+          pattern: "*"
+          ontologies: []
+      - prefix:
+          type: file
+          description: cache
+          pattern: "*"
+          ontologies: []
+topics:
+  versions:
+    - - ${task.process}:
+          type: string
+          description: The process the versions were collected from
+      - curl:
+          type: string
+          description: The tool name
+      - "curl --version | sed -n '1s/curl \\([^ ]*\\).*/\\1/p'":
+          type: eval
+          description: The command used to generate the version of the tool
+authors:
+  - "@maxulysse"
+maintainers:
+  - "@maxulysse"

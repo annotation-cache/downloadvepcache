@@ -13,7 +13,7 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { ENSEMBLVEP_DOWNLOAD     } from './modules/nf-core/ensemblvep/download'
+include { CURL                    } from './modules/local/curl'
 include { PIPELINE_INITIALISATION } from './subworkflows/local/utils_nfcore_downloadvepcache_pipeline'
 include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_nfcore_downloadvepcache_pipeline'
 include { getGenomeAttribute      } from 'plugin/nf-core-utils'
@@ -105,7 +105,7 @@ workflow ANNOTATIONCACHE_DOWNLOADVEPCACHE {
     vep_species
 
     main:
-    ENSEMBLVEP_DOWNLOAD(
+    CURL(
         channel.of(
             [
                 [id: "${vep_cache_version}_${vep_genome}"],
@@ -117,5 +117,5 @@ workflow ANNOTATIONCACHE_DOWNLOADVEPCACHE {
     )
 
     emit:
-    cache = ENSEMBLVEP_DOWNLOAD.out.cache.collect() // channel: [ meta, cache ]
+    cache = CURL.out.cache.collect() // channel: [ meta, cache ]
 }
