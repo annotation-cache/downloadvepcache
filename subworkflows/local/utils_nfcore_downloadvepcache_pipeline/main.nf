@@ -39,9 +39,6 @@ workflow PIPELINE_INITIALISATION {
     show_hidden // boolean: Show hidden parameters in the help message
 
     main:
-
-    ch_versions = channel.empty()
-
     // Print workflow version and exit on --version
     if (version) {
         log.info("${workflow.manifest.name} ${getWorkflowVersion()}")
@@ -125,8 +122,6 @@ workflow PIPELINE_INITIALISATION {
     //
     validateInputParameters()
 
-    emit:
-    versions = ch_versions
 }
 
 /*
