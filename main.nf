@@ -113,7 +113,8 @@ workflow ANNOTATIONCACHE_DOWNLOADVEPCACHE {
                 vep_species,
                 vep_cache_version,
             ]
-        )
+        ),
+        file("${projectDir}/modules/nf-core/ensemblvep/download/vep_install_checksummed.pl")
     )
 
     emit:

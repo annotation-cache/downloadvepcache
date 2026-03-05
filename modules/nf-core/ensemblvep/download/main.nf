@@ -9,6 +9,7 @@ process ENSEMBLVEP_DOWNLOAD {
 
     input:
     tuple val(meta), val(assembly), val(species), val(cache_version)
+    path install_script
 
     output:
     tuple val(meta), path(prefix), emit: cache
@@ -22,7 +23,7 @@ process ENSEMBLVEP_DOWNLOAD {
     def args = task.ext.args ?: ''
     prefix = task.ext.prefix ?: 'vep_cache'
     """
-    perl ${projectDir}/bin/vep_install_checksummed.pl \\
+    perl ${install_script} \\
         --CACHEDIR ${prefix} \\
         --SPECIES ${species} \\
         --ASSEMBLY ${assembly} \\
