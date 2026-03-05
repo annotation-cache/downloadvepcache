@@ -22,7 +22,7 @@ process ENSEMBLVEP_DOWNLOAD {
     def args = task.ext.args ?: ''
     prefix = task.ext.prefix ?: 'vep_cache'
     """
-    perl vep_install_checksummed.pl \\
+    perl ${projectDir}/bin/vep_install_checksummed.pl \\
         --CACHEDIR ${prefix} \\
         --SPECIES ${species} \\
         --ASSEMBLY ${assembly} \\
