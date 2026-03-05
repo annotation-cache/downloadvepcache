@@ -37,6 +37,10 @@ INSTALL.pl - a script to install required code and data for VEP
 
 use strict;
 use FindBin qw($RealBin);
+# When running as a standalone patched copy outside the VEP install tree,
+# resolve the real VEP share directory for modules and .version data
+my $VEP_DIR = $ENV{VEP_SHARE_DIR} || '/opt/conda/share/ensembl-vep-115.2-1';
+$RealBin = $VEP_DIR if -d "$VEP_DIR/modules";
 use lib $RealBin.'/modules';
 use Getopt::Long;
 use File::Path qw(mkpath rmtree);
@@ -335,7 +339,7 @@ if($AUTO) {
 }
 
 else {
-  my $api_msg = 
+  my $api_msg =
       " - Install v$API_VERSION of the Ensembl API for use by the VEP. " .
       "It will not affect any existing installations of the Ensembl API that you may have.\n";
 
@@ -406,7 +410,7 @@ sub update() {
 
   # don't have latest
   if($current_branch < $default_branch_number) {
-    $message = 
+    $message =
       "Version check reports a newer release of '$module' is available ".
       "(installed: $current_branch, available: $default_branch_number)\n";
   }
@@ -543,7 +547,7 @@ sub api() {
   my $curdir = getcwd;
   unless($NO_BIOPERL) {
     bioperl();
-  }  
+  }
 
   # htslib needs to find bioperl to pass tests
   $ENV{PERL5LIB} = $ENV{PERL5LIB} ? $ENV{PERL5LIB}.':'.$DEST_DIR : $DEST_DIR;
@@ -577,7 +581,7 @@ sub check_api() {
 
     eval "require $test_pm";
     $has_api->{$module} = $@ ? 0 : 1;
-    
+
     if($has_api->{$module}) {
       my $have_sub = $CURRENT_VERSION_DATA->{$module} ? ($CURRENT_VERSION_DATA->{$module}->{sub} || '') : '';
       my $git_sub = get_module_sub_version($module);
@@ -871,11 +875,11 @@ END
 
   apt-get install build-essential
 END
-  
+
   # List the required libraries with their packages
-  my %libs = ( 
-    'zlib.h' =>  'zlib1g-dev', 
-    'lzma.h' =>  'liblzma-dev', 
+  my %libs = (
+    'zlib.h' =>  'zlib1g-dev',
+    'lzma.h' =>  'liblzma-dev',
     'bzlib.h' => 'libbz2-dev'
   );
 
@@ -883,7 +887,7 @@ END
   my $this_os =  $^O;
 
   if ($this_os ne 'darwin' ) {
- 
+
     my $default_msg = qq{%s library header(s) not found in /usr/include. Please install it and try again.
 (or to skip Bio::DB::HTS/htslib install re-run with --NO_HTSLIB)
 
@@ -891,7 +895,7 @@ On Debian/Ubuntu systems you can do this with the command:
 
 apt-get install %s};
     my @missing_header = ();
-    my @missing_library = (); 
+    my @missing_library = ();
     # Loop over the required libraries
     foreach my $lib (sort(keys(%libs))) {
       unless(-e '/usr/include/'.$lib){
@@ -903,7 +907,7 @@ apt-get install %s};
     my $install_string = join( ' ', @missing_library);
     die(sprintf($default_msg, $header_string, $install_string). "\n\n") if($header_string ne '');
   }
-    
+
   # STEP 1: Create a clean directory for building
   my $htslib_install_dir = $LIB_DIR;
   my $curdir = getcwd;
@@ -1118,11 +1122,11 @@ sub format_file_size {
   #     432340000 => 432 MB
   #   62340002001 =>  62 GB
   # 3126340002001 =>   3 TB
-  
+
   my $size = shift;
   # Units sorted from the biggest to smallest order of magnitude
   my @units = ( 'TB', 'GB', 'MB', 'KB', 'bytes' );
-  
+
   while (@units) {
     my $unit = shift @units;
     # Calculate order of magnitude based on length of @units
@@ -1185,7 +1189,7 @@ sub cache() {
   my $tabix = `which tabix`;
   chomp($tabix);
   $tabix ||= "$HTSLIB_DIR/tabix";
-  
+
   my $URL_TO_USE = (-e $tabix) ? $CACHE_URL_INDEXED : die "ERROR: Could not find tabix. It is recommended to use indexed cache files";
 
   if(is_url($URL_TO_USE)) {
@@ -1447,7 +1451,7 @@ sub cache() {
       move("$CACHE_DIR/tmp/$species/$_", "$CACHE_DIR/$species/$_") for readdir CACHEDIR;
       closedir CACHEDIR;
     }
-    
+
     if(((-e $bgzip && -e $tabix) || $CONVERT) && !$TEST) {
       unless($QUIET) {
         print " - converting cache, this may take some time but will allow VEP to look up variants and frequency data much faster\n";
