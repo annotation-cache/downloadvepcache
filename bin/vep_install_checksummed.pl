@@ -38,9 +38,14 @@ INSTALL.pl - a script to install required code and data for VEP
 use strict;
 use FindBin qw($RealBin);
 # When running as a standalone patched copy outside the VEP install tree,
-# resolve the real VEP share directory for modules and .version data
-my $VEP_DIR = $ENV{VEP_SHARE_DIR} || '/opt/conda/share/ensembl-vep-115.2-1';
-$RealBin = $VEP_DIR if -d "$VEP_DIR/modules";
+# override $RealBin at compile time so 'use lib' picks up the right path
+BEGIN {
+  my $vep_dir = $ENV{VEP_SHARE_DIR} || '/opt/conda/share/ensembl-vep-115.2-1';
+  if (-d "$vep_dir/modules") {
+    $FindBin::RealBin = $vep_dir;
+    $RealBin = $vep_dir;
+  }
+}
 use lib $RealBin.'/modules';
 use Getopt::Long;
 use File::Path qw(mkpath rmtree);
