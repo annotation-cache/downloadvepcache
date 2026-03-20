@@ -20,7 +20,22 @@ process ENSEMBLVEP_DOWNLOAD {
     script:
     def args = task.ext.args ?: ''
     prefix = task.ext.prefix ?: 'vep_cache'
+    def filename = "${species}_vep_${cache_version}_${assembly}.tar.gz"
+    def checksums_url = "https://ftp.ensembl.org/pub/release-${cache_version}/variation/indexed_vep_cache/CHECKSUMS"
+    def verify = params.verify_checksums != null ? params.verify_checksums : true
     """
+    # Pre-flight: verify CHECKSUMS file exists and lists our expected cache file
+    if [ "${verify}" = "true" ]; then
+        perl -MHTTP::Tiny -e '
+            my \$r = HTTP::Tiny->new(timeout => 30)->get("${checksums_url}");
+            \$r->{success} or die "Failed to fetch CHECKSUMS (HTTP \$r->{status})\\n";
+            \$r->{content} =~ /\\Q${filename}\\E/ or die "${filename} not found in CHECKSUMS\\n";
+            print "Pre-flight OK: CHECKSUMS lists ${filename}\\n";
+        '
+    else
+        echo "Skipping CHECKSUMS verification (verify_checksums = false)"
+    fi
+
     vep_install \\
         --CACHEDIR ${prefix} \\
         --SPECIES ${species} \\

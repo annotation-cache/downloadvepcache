@@ -1,0 +1,41 @@
+nextflow_process {
+
+    name "Test Process ENSEMBLVEP_DOWNLOAD"
+    script "../main.nf"
+    process "ENSEMBLVEP_DOWNLOAD"
+    config "../nextflow.config"
+    tag "modules"
+    tag "modules_nfcore"
+    tag "ensemblvep"
+    tag "ensemblvep/download"
+
+    test("saccharomyces_cerevisiae - R64-1-1 - 115 - full size download") {
+
+        when {
+            process {
+                """
+                input[0] = Channel.of(
+                    [
+                        [ id: '115_R64-1-1' ],
+                        'R64-1-1',
+                        'saccharomyces_cerevisiae',
+                        '115'
+                    ]
+                )
+                """
+            }
+        }
+
+        then {
+            assert process.success
+            assert process.trace.succeeded().size() == 1
+
+            // Verify cache directory was created
+            assert process.out.cache
+            assert new File(process.out.cache[0][1]).exists()
+
+            // Verify output directory matches expected prefix
+            assert process.out.cache[0][1].toString().contains('115_R64-1-1')
+        }
+    }
+}

@@ -27,6 +27,21 @@
                 }
             }
         },
+        "download_options": {
+            "title": "Download options",
+            "type": "object",
+            "fa_icon": "fas fa-download",
+            "description": "Options for controlling cache download behavior.",
+            "properties": {
+                "verify_checksums": {
+                    "type": "boolean",
+                    "default": true,
+                    "fa_icon": "fas fa-check-double",
+                    "description": "Verify that the expected cache file is listed in Ensembl's CHECKSUMS before downloading.",
+                    "help_text": "When enabled, the pipeline fetches the CHECKSUMS file from the Ensembl FTP server and verifies that the expected cache file is listed before proceeding with the download. Set to false to skip this check (e.g. when running offline or behind a firewall)."
+                }
+            }
+        },
         "reference_genome_options": {
             "title": "Reference genome options",
             "type": "object",
@@ -209,6 +224,9 @@
     "allOf": [
         {
             "$ref": "#/$defs/output_options"
+        },
+        {
+            "$ref": "#/$defs/download_options"
         },
         {
             "$ref": "#/$defs/reference_genome_options"
