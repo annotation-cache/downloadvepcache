@@ -3,39 +3,81 @@ nextflow_process {
     name "Test Process ENSEMBLVEP_DOWNLOAD"
     script "../main.nf"
     process "ENSEMBLVEP_DOWNLOAD"
-    config "../nextflow.config"
+    config "./nextflow.config"
+
     tag "modules"
     tag "modules_nfcore"
     tag "ensemblvep"
     tag "ensemblvep/download"
 
-    test("saccharomyces_cerevisiae - R64-1-1 - 115 - full size download") {
+    test("ENSEMBLVEP download cache for 115_WBcel235") {
 
         when {
             process {
                 """
-                input[0] = Channel.of(
-                    [
-                        [ id: '115_R64-1-1' ],
-                        'R64-1-1',
-                        'saccharomyces_cerevisiae',
-                        '115'
-                    ]
-                )
+                input[0] = Channel.of([
+                    [id:"115_WBcel235"],
+                    params.vep_genome,
+                    params.vep_species,
+                    params.vep_cache_version
+                ])
+                input[1] = true
                 """
             }
         }
 
         then {
             assert process.success
-            assert process.trace.succeeded().size() == 1
+            assertAll(
+                { assert snapshot(sanitizeOutput(process.out)).match() }
+            )
+        }
+    }
 
-            // Verify cache directory was created
-            assert process.out.cache
-            assert new File(process.out.cache[0][1]).exists()
+    test("ENSEMBLVEP download cache - preflight fails for invalid species") {
 
-            // Verify output directory matches expected prefix
-            assert process.out.cache[0][1].toString().contains('115_R64-1-1')
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [id:"invalid_species"],
+                    "GRCh38",
+                    "invalid_species",
+                    params.vep_cache_version
+                ])
+                input[1] = true
+                """
+            }
+        }
+
+        then {
+            assert process.failed
+        }
+    }
+
+    test("ENSEMBLVEP download cache for 115_WBcel235 - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = Channel.of([
+                    [id:"115_WBcel235"],
+                    params.vep_genome,
+                    params.vep_species,
+                    params.vep_cache_version
+                ])
+                input[1] = true
+                """
+            }
+        }
+
+        then {
+            assert process.success
+            assertAll(
+                { assert snapshot(sanitizeOutput(process.out)).match() }
+            )
         }
     }
 }

@@ -33,12 +33,12 @@
             "fa_icon": "fas fa-download",
             "description": "Options for controlling cache download behavior.",
             "properties": {
-                "verify_checksums": {
+                "preflight_check": {
                     "type": "boolean",
                     "default": true,
                     "fa_icon": "fas fa-check-double",
-                    "description": "Verify that the expected cache file is listed in Ensembl's CHECKSUMS before downloading.",
-                    "help_text": "When enabled, the pipeline fetches the CHECKSUMS file from the Ensembl FTP server and verifies that the expected cache file is listed before proceeding with the download. Set to false to skip this check (e.g. when running offline or behind a firewall)."
+                    "description": "Check that the expected cache file is listed in Ensembl's CHECKSUMS before downloading.",
+                    "help_text": "Fetches the Ensembl FTP CHECKSUMS file and confirms the expected cache tar.gz is listed before running vep_install. Set to false to skip."
                 }
             }
         },
