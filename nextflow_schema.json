@@ -27,6 +27,21 @@
                 }
             }
         },
+        "download_options": {
+            "title": "Download options",
+            "type": "object",
+            "fa_icon": "fas fa-download",
+            "description": "Options for controlling cache download behavior.",
+            "properties": {
+                "preflight_check": {
+                    "type": "boolean",
+                    "default": true,
+                    "fa_icon": "fas fa-check-double",
+                    "description": "Check that the expected cache file is listed in Ensembl's CHECKSUMS before downloading.",
+                    "help_text": "Fetches the Ensembl FTP CHECKSUMS file and confirms the expected cache tar.gz is listed before running vep_install. Set to false to skip."
+                }
+            }
+        },
         "reference_genome_options": {
             "title": "Reference genome options",
             "type": "object",
@@ -209,6 +224,9 @@
     "allOf": [
         {
             "$ref": "#/$defs/output_options"
+        },
+        {
+            "$ref": "#/$defs/download_options"
         },
         {
             "$ref": "#/$defs/reference_genome_options"

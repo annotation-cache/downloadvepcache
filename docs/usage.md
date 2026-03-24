@@ -69,6 +69,22 @@ To further assist in reproducibility, you can use share and reuse [parameter fil
 > [!TIP]
 > If you wish to share such profile (such as upload as supplementary material for academic publications), make sure to NOT include cluster specific paths to files, nor institutional specific profiles.
 
+## Pre-flight check
+
+By default, the pipeline verifies that the expected VEP cache file is listed on the Ensembl FTP server before attempting the download. This is controlled by the `--preflight_check` parameter (default: `true`).
+
+### Why this exists
+
+Missing `CHECKSUMS` files on the Ensembl FTP server have been a recurring problem across releases (e.g. Ensembl/ensembl-vep [#932](https://github.com/Ensembl/ensembl-vep/issues/932), [#1285](https://github.com/Ensembl/ensembl-vep/issues/1285), [#1658](https://github.com/Ensembl/ensembl-vep/issues/1658)). The `vep_install` tool does verify checksums, but only after attempting the download. The pre-flight check moves this verification to before the download starts, so a missing or incomplete `CHECKSUMS` file is caught early.
+
+### Disabling the check
+
+You can disable the check by setting `--preflight_check false`:
+
+```bash
+nextflow run annotation-cache/downloadvepcache --outdir ./results --genome GRCh38 --preflight_check false -profile docker
+```
+
 ## Core Nextflow arguments
 
 > [!NOTE]

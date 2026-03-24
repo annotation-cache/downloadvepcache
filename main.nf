@@ -55,6 +55,7 @@ workflow {
         params.vep_cache_version,
         params.vep_genome,
         params.vep_species,
+        params.preflight_check,
     )
 
     softwareVersionsToYAML(
@@ -103,6 +104,7 @@ workflow ANNOTATIONCACHE_DOWNLOADVEPCACHE {
     vep_cache_version
     vep_genome
     vep_species
+    preflight_check
 
     main:
     ENSEMBLVEP_DOWNLOAD(
@@ -113,7 +115,8 @@ workflow ANNOTATIONCACHE_DOWNLOADVEPCACHE {
                 vep_species,
                 vep_cache_version,
             ]
-        )
+        ),
+        preflight_check,
     )
 
     emit:
