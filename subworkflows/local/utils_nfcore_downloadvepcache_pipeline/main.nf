@@ -9,7 +9,6 @@
 */
 
 include { checkCondaChannels   } from 'plugin/nf-core-utils'
-include { checkConfigProvided  } from 'plugin/nf-core-utils'
 include { checkProfileProvided } from 'plugin/nf-core-utils'
 include { completionEmail      } from 'plugin/nf-core-utils'
 include { completionSummary    } from 'plugin/nf-core-utils'
@@ -20,7 +19,6 @@ include { imNotification       } from 'plugin/nf-core-utils'
 include { paramsHelp           } from 'plugin/nf-schema'
 include { paramsSummaryLog     } from 'plugin/nf-schema'
 include { paramsSummaryMap     } from 'plugin/nf-schema'
-include { samplesheetToList    } from 'plugin/nf-schema'
 include { validateParameters   } from 'plugin/nf-schema'
 
 /*
@@ -41,9 +39,6 @@ workflow PIPELINE_INITIALISATION {
     show_hidden // boolean: Show hidden parameters in the help message
 
     main:
-
-    ch_versions = channel.empty()
-
     // Print workflow version and exit on --version
     if (version) {
         log.info("${workflow.manifest.name} ${getWorkflowVersion()}")
@@ -127,8 +122,6 @@ workflow PIPELINE_INITIALISATION {
     //
     validateInputParameters()
 
-    emit:
-    versions = ch_versions
 }
 
 /*
