@@ -2,8 +2,13 @@ lint:
   actions_awsfulltest: false
   files_exist:
     - .github/ISSUE_TEMPLATE/config.yml
+    - .github/workflows/awsfulltest.yml
+    - .github/workflows/awstest.yml
     - CODE_OF_CONDUCT.md
+    - assets/multiqc_config.yml
     - assets/nf-core-downloadvepcache_logo_light.png
+    - conf/igenomes.config
+    - conf/igenomes_ignored.config
     - conf/modules.config
     - conf/test_full.config
     - docs/images/nf-core-downloadvepcache_logo_dark.png
@@ -13,9 +18,11 @@ lint:
   nextflow_config:
     - manifest.name
     - manifest.homePage
+    - manifest.version
     - params.input
   nf_test_content: false
-nf_core_version: 3.5.2
+  schema_lint: false
+nf_core_version: 4.0.2
 repository_type: pipeline
 template:
   author: Maxime U Garcia
@@ -30,4 +37,4 @@ template:
     - igenomes
     - multiqc
     - seqera_platform
-  version: "115.0"
+  version: 0dev
