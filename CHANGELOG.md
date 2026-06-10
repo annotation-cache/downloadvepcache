@@ -24,14 +24,20 @@ and this project uses the same versioning scheme as [Ensembl VEP](https://www.en
 
 ### Dependencies
 
-| Dependency   | Old     | New     |
-| ------------ | ------- | ------- |
-| `nf-core` template | `3.5.2` | `4.0.2` |
-| Nextflow     | `25.10.4` | `26.04.0` |
-| `nf-schema`  | `2.6.1` | `2.7.2` |
-| `nf-core-utils` | `0.4.0` | `0.5.0` |
-| `nft-utils`  | `0.0.8` | `1.0.0` |
-| `nf-test`    | `0.9.4` | `0.9.5` |
+| Dependency      | Old       | New       |
+| --------------- | --------- | --------- |
+| `Nextflow`      | `25.10.4` | `26.04.0` |
+| `nf-core-utils` | `0.4.0`   | `0.5.0`   |
+| `nf-core`       | `3.5.2`   | `4.0.2`   |
+| `nf-schema`     | `2.6.1`   | `2.7.2`   |
+| `nf-test`       | `0.9.4`   | `0.9.5`   |
+| `nft-utils`     | `0.0.8`   | `1.0.0`   |
+
+### Parameters
+
+| Old name | New name |
+| -------- | -------- |
+| hook_url | -        |
 
 ## [115.0](https://github.com/annotation-cache/downloadvepcache/releases/tag/115.0) - Crimson Chaussettes
 
