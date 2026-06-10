@@ -23,6 +23,10 @@ and this project uses the same versioning scheme as [Ensembl VEP](https://www.en
 
 - [#24](https://github.com/annotation-cache/downloadvepcache/pull/24) - Fix divergence between dev and main branches
 
+### Removed
+
+- [#33](https://github.com/annotation-cache/downloadvepcache/pull/33) - Remove download pipeline test workflow
+
 ### Dependencies
 
 | Dependency      | Old       | New       |
