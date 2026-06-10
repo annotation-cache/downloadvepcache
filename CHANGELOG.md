@@ -1,15 +1,44 @@
 # annotation-cache/downloadvepcache: Changelog
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+and this project uses the same versioning scheme as [Ensembl VEP](https://www.ensembl.org/info/docs/tools/vep/script/vep_cache.html).
 
 ## dev
+
+### Added
+
+- [#29](https://github.com/annotation-cache/downloadvepcache/pull/29) - Add pre-flight CHECKSUMS verification for VEP cache download
+
+### Changed
 
 - [#19](https://github.com/annotation-cache/downloadvepcache/pull/19) - Update `ensemblvep/download` to `115.2`
 - [#20](https://github.com/annotation-cache/downloadvepcache/pull/20) - Template update for nf-core/tools version `3.5.1`
 - [#21](https://github.com/annotation-cache/downloadvepcache/pull/21) - Switch to topic channels for version reporting
-- [#24](https://github.com/annotation-cache/downloadvepcache/pull/24) - Fix divergence between dev and main branches
 - [#25](https://github.com/annotation-cache/downloadvepcache/pull/25) - Template update for nf-core/tools version `3.5.2`
+- [#26](https://github.com/annotation-cache/downloadvepcache/pull/26) - Update nf-core subworkflows
+- [#31](https://github.com/annotation-cache/downloadvepcache/pull/31) - Updated dependencies
+
+### Fixed
+
+- [#24](https://github.com/annotation-cache/downloadvepcache/pull/24) - Fix divergence between dev and main branches
+
+### Dependencies
+
+| Dependency      | Old       | New       |
+| --------------- | --------- | --------- |
+| `Nextflow`      | `25.10.4` | `26.04.0` |
+| `nf-core-utils` | `0.4.0`   | `0.5.0`   |
+| `nf-core`       | `3.5.2`   | `4.0.2`   |
+| `nf-schema`     | `2.6.1`   | `2.7.2`   |
+| `nf-test`       | `0.9.4`   | `0.9.5`   |
+| `nft-utils`     | `0.0.8`   | `1.0.0`   |
+
+### Parameters
+
+| Old name | New name        |
+| -------- | --------------- |
+|          | preflight_check |
+| hook_url |                 |
 
 ## [115.0](https://github.com/annotation-cache/downloadvepcache/releases/tag/115.0) - Crimson Chaussettes
 
