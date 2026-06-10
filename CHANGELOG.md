@@ -16,10 +16,10 @@ and this project uses the same versioning scheme as [Ensembl VEP](https://www.en
 - [#21](https://github.com/annotation-cache/downloadvepcache/pull/21) - Switch to topic channels for version reporting
 - [#25](https://github.com/annotation-cache/downloadvepcache/pull/25) - Template update for nf-core/tools version `3.5.2`
 - [#26](https://github.com/annotation-cache/downloadvepcache/pull/26) - Update nf-core subworkflows
-- Sync nf-core template to tools `4.0.2`
-- Bump Nextflow to `26.04.0`
-- Update nf-schema to `2.7.2`, nf-core-utils to `0.5.0`
-- Update nft-utils to `1.0.0`, nf-test to `0.9.5`
+- [#31](https://github.com/annotation-cache/downloadvepcache/pull/31) - Sync nf-core template to tools `4.0.2`
+- [#31](https://github.com/annotation-cache/downloadvepcache/pull/31) - Bump Nextflow to `26.04.0`
+- [#31](https://github.com/annotation-cache/downloadvepcache/pull/31) - Update nf-schema to `2.7.2`, nf-core-utils to `0.5.0`
+- [#31](https://github.com/annotation-cache/downloadvepcache/pull/31) - Update nft-utils to `1.0.0`, nf-test to `0.9.5`
 
 ### Fixed
 
