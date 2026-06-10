@@ -16,14 +16,22 @@ and this project uses the same versioning scheme as [Ensembl VEP](https://www.en
 - [#21](https://github.com/annotation-cache/downloadvepcache/pull/21) - Switch to topic channels for version reporting
 - [#25](https://github.com/annotation-cache/downloadvepcache/pull/25) - Template update for nf-core/tools version `3.5.2`
 - [#26](https://github.com/annotation-cache/downloadvepcache/pull/26) - Update nf-core subworkflows
-- [#31](https://github.com/annotation-cache/downloadvepcache/pull/31) - Sync nf-core template to tools `4.0.2`
-- [#31](https://github.com/annotation-cache/downloadvepcache/pull/31) - Bump Nextflow to `26.04.0`
-- [#31](https://github.com/annotation-cache/downloadvepcache/pull/31) - Update nf-schema to `2.7.2`, nf-core-utils to `0.5.0`
-- [#31](https://github.com/annotation-cache/downloadvepcache/pull/31) - Update nft-utils to `1.0.0`, nf-test to `0.9.5`
+- [#31](https://github.com/annotation-cache/downloadvepcache/pull/31) - Updated dependencies
 
 ### Fixed
 
 - [#24](https://github.com/annotation-cache/downloadvepcache/pull/24) - Fix divergence between dev and main branches
+
+### Dependencies
+
+| Dependency   | Old     | New     |
+| ------------ | ------- | ------- |
+| `nf-core` template | `3.5.2` | `4.0.2` |
+| Nextflow     | `25.10.4` | `26.04.0` |
+| `nf-schema`  | `2.6.1` | `2.7.2` |
+| `nf-core-utils` | `0.4.0` | `0.5.0` |
+| `nft-utils`  | `0.0.8` | `1.0.0` |
+| `nf-test`    | `0.9.4` | `0.9.5` |
 
 ## [115.0](https://github.com/annotation-cache/downloadvepcache/releases/tag/115.0) - Crimson Chaussettes
 
