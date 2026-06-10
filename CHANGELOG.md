@@ -11,12 +11,6 @@ and this project uses the same versioning scheme as [Ensembl VEP](https://www.en
 
 ### Changed
 
-### Added
-
-- [#29](https://github.com/annotation-cache/downloadvepcache/pull/29) - Add pre-flight CHECKSUMS verification for VEP cache download
-
-### Changed
-
 - [#19](https://github.com/annotation-cache/downloadvepcache/pull/19) - Update `ensemblvep/download` to `115.2`
 - [#20](https://github.com/annotation-cache/downloadvepcache/pull/20) - Template update for nf-core/tools version `3.5.1`
 - [#21](https://github.com/annotation-cache/downloadvepcache/pull/21) - Switch to topic channels for version reporting
