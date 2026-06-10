@@ -37,4 +37,4 @@ template:
     - igenomes
     - multiqc
     - seqera_platform
-  version: "dev"
+  version: "116"
