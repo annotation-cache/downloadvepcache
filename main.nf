@@ -82,9 +82,7 @@ workflow {
     )
 
     publish:
-    cache = ENSEMBLVEP_DOWNLOAD.out.cache.map { meta, file ->
-        [meta + [path: meta.id], file]
-    }
+    cache = ENSEMBLVEP_DOWNLOAD.out.cache.map { meta, file -> [meta + [path: meta.id], file] }
 }
 
 output {
