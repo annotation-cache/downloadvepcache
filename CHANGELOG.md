@@ -41,10 +41,6 @@ and this project uses the same versioning scheme as [Ensembl VEP](https://www.en
 |          | preflight_check |
 | hook_url |                 |
 
-### Fixed
-
-- [#24](https://github.com/annotation-cache/downloadvepcache/pull/24) - Fix divergence between dev and main branches
-
 ## [115](https://github.com/annotation-cache/downloadvepcache/releases/tag/115) - Crimson Chaussettes
 
 ### Changed
