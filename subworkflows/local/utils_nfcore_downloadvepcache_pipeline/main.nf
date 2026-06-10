@@ -14,7 +14,6 @@ include { completionEmail      } from 'plugin/nf-core-utils'
 include { completionSummary    } from 'plugin/nf-core-utils'
 include { dumpParametersToJSON } from 'plugin/nf-core-utils'
 include { getWorkflowVersion   } from 'plugin/nf-core-utils'
-include { imNotification       } from 'plugin/nf-core-utils'
 
 include { paramsHelp           } from 'plugin/nf-schema'
 include { paramsSummaryLog     } from 'plugin/nf-schema'
@@ -121,7 +120,6 @@ workflow PIPELINE_INITIALISATION {
     // Custom validation for pipeline parameters
     //
     validateInputParameters()
-
 }
 
 /*
@@ -157,7 +155,6 @@ workflow PIPELINE_COMPLETION {
         }
 
         completionSummary(monochrome_logs)
-
     }
 
     workflow.onError {
@@ -200,9 +197,7 @@ def toolCitationText() {
 }
 
 def toolBibliographyText() {
-    def reference_text = [
-        "<li>McLaren, W., Gil, L., Hunt, SE., Riat, HS., Ritchie, GR., Thormann, A., Flicek, P., & Cunningham, F. The Ensembl Variant Effect Predictor. Genome Biology Jun 6;17(1):122. (2016) doi: 10.1186/s13059-016-0974-4"
-    ].join(' ').trim()
+    def reference_text = ["<li>McLaren, W., Gil, L., Hunt, SE., Riat, HS., Ritchie, GR., Thormann, A., Flicek, P., & Cunningham, F. The Ensembl Variant Effect Predictor. Genome Biology Jun 6;17(1):122. (2016) doi: 10.1186/s13059-016-0974-4"].join(' ').trim()
 
     return reference_text
 }
