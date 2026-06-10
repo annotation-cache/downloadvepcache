@@ -45,9 +45,6 @@ input:
   - monochrome_logs:
       type: boolean
       description: Disable ANSI colour codes in log output
-  - hook_url:
-      type: string
-      description: Hook URL for notifications
 output:
   - versions:
       type: file
