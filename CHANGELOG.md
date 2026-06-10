@@ -37,8 +37,8 @@ and this project uses the same versioning scheme as [Ensembl VEP](https://www.en
 
 | Old name | New name        |
 | -------- | --------------- |
-| -        | preflight_check |
-| hook_url | -               |
+|          | preflight_check |
+| hook_url |                 |
 
 ## [115.0](https://github.com/annotation-cache/downloadvepcache/releases/tag/115.0) - Crimson Chaussettes
 
