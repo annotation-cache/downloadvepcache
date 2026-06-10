@@ -8,14 +8,17 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { UTILS_NFSCHEMA_PLUGIN   } from '../../nf-core/utils_nfschema_plugin'
-include { paramsSummaryMap        } from 'plugin/nf-schema'
-include { samplesheetToList       } from 'plugin/nf-schema'
-include { completionEmail         } from '../../nf-core/utils_nfcore_pipeline'
-include { completionSummary       } from '../../nf-core/utils_nfcore_pipeline'
-include { imNotification          } from '../../nf-core/utils_nfcore_pipeline'
-include { UTILS_NFCORE_PIPELINE   } from '../../nf-core/utils_nfcore_pipeline'
-include { UTILS_NEXTFLOW_PIPELINE } from '../../nf-core/utils_nextflow_pipeline'
+include { checkCondaChannels   } from 'plugin/nf-core-utils'
+include { checkProfileProvided } from 'plugin/nf-core-utils'
+include { completionEmail      } from 'plugin/nf-core-utils'
+include { completionSummary    } from 'plugin/nf-core-utils'
+include { dumpParametersToJSON } from 'plugin/nf-core-utils'
+include { getWorkflowVersion   } from 'plugin/nf-core-utils'
+
+include { paramsHelp           } from 'plugin/nf-schema'
+include { paramsSummaryLog     } from 'plugin/nf-schema'
+include { paramsSummaryMap     } from 'plugin/nf-schema'
+include { validateParameters   } from 'plugin/nf-schema'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -25,43 +28,98 @@ include { UTILS_NEXTFLOW_PIPELINE } from '../../nf-core/utils_nextflow_pipeline'
 
 workflow PIPELINE_INITIALISATION {
     take:
-    version           // boolean: Display version and exit
-    validate_params   // boolean: Boolean whether to validate parameters against the schema at runtime
+    version // boolean: Display version and exit
+    validate_params // boolean: Boolean whether to validate parameters against the schema at runtime
     nextflow_cli_args //   array: List of positional nextflow CLI args
-    outdir            //  string: The output directory where the results will be saved
+    outdir //  string: The output directory where the results will be saved
+    input //  string: Path to input samplesheet
+    help // boolean: Display help message and exit
+    help_full // boolean: Show the full help message
+    show_hidden // boolean: Show hidden parameters in the help message
 
     main:
+    // Print workflow version and exit on --version
+    if (version) {
+        log.info("${workflow.manifest.name} ${getWorkflowVersion()}")
+        System.exit(0)
+    }
 
-    ch_versions = Channel.empty()
+    // Dump pipeline parameters to a JSON file
+    if (outdir) {
+        dumpParametersToJSON(outdir, params)
+    }
 
-    //
-    // Print version and exit if required and dump pipeline parameters to JSON file
-    //
-    UTILS_NEXTFLOW_PIPELINE(
-        version,
-        true,
-        outdir,
-        workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() >= 1,
-    )
+    // When running with Conda, warn if channels have not been set-up appropriately
+    if (workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() >= 1) {
+        checkCondaChannels()
+    }
 
-    //
     // Validate parameters and generate parameter summary to stdout
     //
-    UTILS_NFSCHEMA_PLUGIN(
-        workflow,
-        validate_params,
-        null,
-    )
+    before_text = """
+\033[0;35m  annotation-cache/downloadvepcache ${workflow.manifest.version}\033[0m
+-\033[2m----------------------------------------------------\033[0m-
+"""
+    after_text = """${workflow.manifest.doi ? "\n* The pipeline\n" : ""}${workflow.manifest.doi.tokenize(",").collect { doi -> "    https://doi.org/${doi.trim().replace('https://doi.org/', '')}" }.join("\n")}${workflow.manifest.doi ? "\n" : ""}
+* The nf-core framework
+    https://doi.org/10.1038/s41587-020-0439-x
+
+* Software dependencies
+    https://github.com/nf-core/rnavar/blob/master/CITATIONS.md
+"""
+    command = "nextflow run ${workflow.manifest.name} -profile <docker/singularity/.../institute> --genome <GENOME> --outdir <OUTDIR>"
+
+    if (help || help_full) {
+        help_options = [
+            beforeText: before_text,
+            afterText: after_text,
+            command: command,
+            showHidden: show_hidden,
+            fullHelp: help_full,
+        ]
+        if (null) {
+            help_options << [parametersSchema: null]
+        }
+        log.info(
+            paramsHelp(
+                help_options,
+                params.help instanceof String ? params.help : "",
+            )
+        )
+        exit(0)
+    }
+
+    checkProfileProvided(nextflow_cli_args)
 
     //
-    // Check config provided to the pipeline
+    // Print parameter summary to stdout. This will display the parameters
+    // that differ from the default given in the JSON schema
     //
-    UTILS_NFCORE_PIPELINE(
-        nextflow_cli_args
-    )
 
-    emit:
-    versions = ch_versions
+    summary_options = [:]
+    if (null) {
+        summary_options << [parametersSchema: null]
+    }
+    log.info(before_text)
+    log.info(paramsSummaryLog(summary_options, workflow))
+    log.info(after_text)
+
+    //
+    // Validate the parameters using nextflow_schema.json or the schema
+    // given via the validation.parametersSchema configuration option
+    //
+    if (validate_params) {
+        validateOptions = [:]
+        if (null) {
+            validateOptions << [parametersSchema: null]
+        }
+        validateParameters(validateOptions)
+    }
+
+    //
+    // Custom validation for pipeline parameters
+    //
+    validateInputParameters()
 }
 
 /*
@@ -72,12 +130,11 @@ workflow PIPELINE_INITIALISATION {
 
 workflow PIPELINE_COMPLETION {
     take:
-    email           //  string: email address
-    email_on_fail   //  string: email address sent on pipeline failure
+    email //  string: email address
+    email_on_fail //  string: email address sent on pipeline failure
     plaintext_email // boolean: Send plain-text email instead of HTML
-    outdir          //    path: Path to output directory where results will be published
+    outdir //    path: Path to output directory where results will be published
     monochrome_logs // boolean: Disable ANSI colour codes in log output
-    hook_url        //  string: hook URL for notifications
 
     main:
     summary_params = paramsSummaryMap(workflow, parameters_schema: "nextflow_schema.json")
@@ -94,14 +151,10 @@ workflow PIPELINE_COMPLETION {
                 plaintext_email,
                 outdir,
                 monochrome_logs,
-                [],
             )
         }
 
         completionSummary(monochrome_logs)
-        if (hook_url) {
-            imNotification(summary_params, hook_url)
-        }
     }
 
     workflow.onError {
@@ -114,6 +167,22 @@ workflow PIPELINE_COMPLETION {
     FUNCTIONS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
+//
+// Check and validate pipeline parameters
+//
+def validateInputParameters() {
+    genomeExistsError()
+}
+
+//
+// Exit pipeline if incorrect --genome key provided
+//
+def genomeExistsError() {
+    if (params.genomes && params.genome && !params.genomes.containsKey(params.genome)) {
+        def error_string = "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n" + "  Genome '${params.genome}' not found in any config files provided to the pipeline.\n" + "  Currently, the available genome keys are:\n" + "  ${params.genomes.keySet().join(", ")}\n" + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+        error(error_string)
+    }
+}
 
 //
 // Generate methods description for MultiQC
@@ -121,16 +190,14 @@ workflow PIPELINE_COMPLETION {
 def toolCitationText() {
     def citation_text = [
         "Tools used in the workflow included:",
-        "EnsemblVEP (McLaren et al. 2016)",
+        "EnsemblVEP (McLaren 2016),",
     ].join(' ').trim()
 
     return citation_text
 }
 
 def toolBibliographyText() {
-    def reference_text = [
-        "McLaren W, Gil L, Hunt SE, et al.: The Ensembl Variant Effect Predictor. Genome Biol. 2016 Jun 6;17(1):122. doi: 10.1186/s13059-016-0974-4. PubMed PMID: 27268795; PubMed Central PMCID: PMC4893825."
-    ].join(' ').trim()
+    def reference_text = ["<li>McLaren, W., Gil, L., Hunt, SE., Riat, HS., Ritchie, GR., Thormann, A., Flicek, P., & Cunningham, F. The Ensembl Variant Effect Predictor. Genome Biology Jun 6;17(1):122. (2016) doi: 10.1186/s13059-016-0974-4"].join(' ').trim()
 
     return reference_text
 }

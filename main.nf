@@ -7,49 +7,27 @@
 ----------------------------------------------------------------------------------------
 */
 
-params.vep_cache_version = getGenomeAttribute('vep_cache_version')
-params.vep_genome        = getGenomeAttribute('vep_genome')
-params.vep_species       = getGenomeAttribute('vep_species')
-
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     IMPORT FUNCTIONS / MODULES / SUBWORKFLOWS / WORKFLOWS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { DOWNLOADVEPCACHE        } from './workflows/downloadvepcache'
+include { ENSEMBLVEP_DOWNLOAD     } from './modules/nf-core/ensemblvep/download'
 include { PIPELINE_INITIALISATION } from './subworkflows/local/utils_nfcore_downloadvepcache_pipeline'
 include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_nfcore_downloadvepcache_pipeline'
-include { softwareVersionsToYAML  } from './subworkflows/nf-core/utils_nfcore_pipeline'
+include { getGenomeAttribute      } from 'plugin/nf-core-utils'
+include { softwareVersionsToYAML  } from 'plugin/nf-core-utils'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    NAMED WORKFLOWS FOR PIPELINE
+    GENOME PARAMETER VALUES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-//
-// WORKFLOW: Run main analysis pipeline depending on type of input
-//
-workflow ANNOTATIONCACHE_DOWNLOADVEPCACHE {
-    take:
-    id // channel: samplesheet read in from --input
-
-    main:
-    DOWNLOADVEPCACHE(
-        Channel.of(
-            [
-                [id: "${id}"],
-                params.vep_genome,
-                params.vep_species,
-                params.vep_cache_version,
-            ]
-        )
-    )
-
-    emit:
-    versions = DOWNLOADVEPCACHE.out.versions // channel: [ versions.yml ]
-}
+params.vep_cache_version = getGenomeAttribute('vep_cache_version')
+params.vep_genome        = getGenomeAttribute('vep_genome')
+params.vep_species       = getGenomeAttribute('vep_species')
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -58,51 +36,88 @@ workflow ANNOTATIONCACHE_DOWNLOADVEPCACHE {
 */
 
 workflow {
-    //
+
+    main:
     // SUBWORKFLOW: Run initialisation tasks
-    //
     PIPELINE_INITIALISATION(
         params.version,
         params.validate_params,
         args,
         params.outdir,
+        params.genome,
+        params.help,
+        params.help_full,
+        params.show_hidden,
     )
 
-    //
     // WORKFLOW: Run main workflow
-    //
-    ANNOTATIONCACHE_DOWNLOADVEPCACHE("${params.vep_cache_version}_${params.vep_genome}")
+    ANNOTATIONCACHE_DOWNLOADVEPCACHE(
+        params.vep_cache_version,
+        params.vep_genome,
+        params.vep_species,
+        params.preflight_check,
+    )
 
-    softwareVersionsToYAML(ANNOTATIONCACHE_DOWNLOADVEPCACHE.out.versions).collectFile(storeDir: "${params.outdir}/pipeline_info", name: 'downloadvepcache_software_versions.yml', sort: true, newLine: true)
+    softwareVersionsToYAML(
+        softwareVersions: channel.topic("versions"),
+        nextflowVersion: workflow.nextflow.version,
+    ).collectFile(
+        storeDir: "${params.outdir}/pipeline_info",
+        name: 'downloadvepcache_software_versions.yml',
+        sort: true,
+        newLine: true,
+    )
 
-    //
     // SUBWORKFLOW: Run completion tasks
-    //
     PIPELINE_COMPLETION(
         params.email,
         params.email_on_fail,
         params.plaintext_email,
         params.outdir,
         params.monochrome_logs,
-        params.hook_url,
     )
+
+    publish:
+    cache = ANNOTATIONCACHE_DOWNLOADVEPCACHE.out.cache.map { meta, file ->
+        [meta + [path: meta.id], file]
+    }
+}
+
+output {
+    cache {
+        path { meta, path -> path >> meta.path }
+    }
 }
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    FUNCTIONS
+    NAMED WORKFLOWS FOR PIPELINE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
 //
-// Get attribute from genome config file e.g. fasta
+// WORKFLOW: DOWNLOAD CACHE FOR VEP DEPENDING ON INPUT
 //
+workflow ANNOTATIONCACHE_DOWNLOADVEPCACHE {
+    take:
+    vep_cache_version
+    vep_genome
+    vep_species
+    preflight_check
 
-def getGenomeAttribute(attribute) {
-    if (params.genomes && params.genome && params.genomes.containsKey(params.genome)) {
-        if (params.genomes[params.genome].containsKey(attribute)) {
-            return params.genomes[params.genome][attribute]
-        }
-    }
-    return null
+    main:
+    ENSEMBLVEP_DOWNLOAD(
+        channel.of(
+            [
+                [id: "${vep_cache_version}_${vep_genome}"],
+                vep_genome,
+                vep_species,
+                vep_cache_version,
+            ]
+        ),
+        preflight_check,
+    )
+
+    emit:
+    cache = ENSEMBLVEP_DOWNLOAD.out.cache.collect() // channel: [ meta, cache ]
 }
