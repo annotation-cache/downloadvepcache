@@ -1,5 +1,7 @@
 lint:
   actions_awsfulltest: false
+  files_unchanged:
+    - .github/PULL_REQUEST_TEMPLATE.md
   files_exist:
     - .github/ISSUE_TEMPLATE/config.yml
     - .github/workflows/awsfulltest.yml
@@ -22,7 +24,7 @@ lint:
     - params.input
   schema_lint: false
   nf_test_content: false
-nf_core_version: 3.5.2
+nf_core_version: 4.0.2
 repository_type: pipeline
 template:
   author: Maxime U Garcia
