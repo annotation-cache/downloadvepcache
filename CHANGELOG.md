@@ -3,6 +3,12 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project uses the same versioning scheme as [Ensembl VEP](https://www.ensembl.org/info/docs/tools/vep/script/vep_cache.html).
 
+## [Unreleased](https://github.com/annotation-cache/downloadvepcache/compare/116...HEAD)
+
+### Changed
+
+- Switched to a simplified contributing workflow with PRs directly to `main` (no `dev` branch)
+
 ## [116](https://github.com/annotation-cache/downloadvepcache/releases/tag/116) - Pourpre Pantalon
 
 ### Added
