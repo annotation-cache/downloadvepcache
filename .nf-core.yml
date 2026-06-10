@@ -22,7 +22,7 @@ lint:
     - params.input
   schema_lint: false
   nf_test_content: false
-nf_core_version: 3.5.2
+nf_core_version: 4.0.2
 repository_type: pipeline
 template:
   author: Maxime U Garcia
@@ -37,4 +37,4 @@ template:
     - igenomes
     - multiqc
     - seqera_platform
-  version: "dev"
+  version: "0dev"
