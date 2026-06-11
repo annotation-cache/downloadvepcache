@@ -3,6 +3,19 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project uses the same versioning scheme as [Ensembl VEP](https://www.ensembl.org/info/docs/tools/vep/script/vep_cache.html).
 
+## [Unreleased](https://github.com/annotation-cache/downloadvepcache/compare/116...HEAD)
+
+### Changed
+
+- [#35](https://github.com/annotation-cache/downloadvepcache/pull/35) - Simplified code in `main.nf`
+- [#35](https://github.com/annotation-cache/downloadvepcache/pull/35) - Switched to a simplified contributing workflow with PRs directly to `main` (no `dev` branch)
+
+### Removed
+
+- [#35](https://github.com/annotation-cache/downloadvepcache/pull/35) - Removed `.github/workflows/branch.yml` (no longer needed with direct-to-main workflow)
+- [#35](https://github.com/annotation-cache/downloadvepcache/pull/35) - Removed `utils_nfcore_pipeline` tests (not applicable for this pipeline)
+- [#35](https://github.com/annotation-cache/downloadvepcache/pull/35) - Removed conda and singularity from nf-test CI
+
 ## [116](https://github.com/annotation-cache/downloadvepcache/releases/tag/116) - Pourpre Pantalon
 
 ### Added

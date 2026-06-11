@@ -50,11 +50,15 @@ workflow {
         params.show_hidden,
     )
 
-    // WORKFLOW: Run main workflow
-    ANNOTATIONCACHE_DOWNLOADVEPCACHE(
-        params.vep_cache_version,
-        params.vep_genome,
-        params.vep_species,
+    ENSEMBLVEP_DOWNLOAD(
+        channel.of(
+            [
+                [id: "${params.vep_cache_version}_${params.vep_genome}"],
+                params.vep_genome,
+                params.vep_species,
+                params.vep_cache_version,
+            ]
+        ),
         params.preflight_check,
     )
 
@@ -78,46 +82,11 @@ workflow {
     )
 
     publish:
-    cache = ANNOTATIONCACHE_DOWNLOADVEPCACHE.out.cache.map { meta, file ->
-        [meta + [path: meta.id], file]
-    }
+    cache = ENSEMBLVEP_DOWNLOAD.out.cache.map { meta, file -> [meta + [path: meta.id], file] }
 }
 
 output {
     cache {
         path { meta, path -> path >> meta.path }
     }
-}
-
-/*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    NAMED WORKFLOWS FOR PIPELINE
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-*/
-
-//
-// WORKFLOW: DOWNLOAD CACHE FOR VEP DEPENDING ON INPUT
-//
-workflow ANNOTATIONCACHE_DOWNLOADVEPCACHE {
-    take:
-    vep_cache_version
-    vep_genome
-    vep_species
-    preflight_check
-
-    main:
-    ENSEMBLVEP_DOWNLOAD(
-        channel.of(
-            [
-                [id: "${vep_cache_version}_${vep_genome}"],
-                vep_genome,
-                vep_species,
-                vep_cache_version,
-            ]
-        ),
-        preflight_check,
-    )
-
-    emit:
-    cache = ENSEMBLVEP_DOWNLOAD.out.cache.collect() // channel: [ meta, cache ]
 }
