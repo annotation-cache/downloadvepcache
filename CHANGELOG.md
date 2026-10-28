@@ -9,6 +9,7 @@ and this project uses the same versioning scheme as [Ensembl VEP](https://www.en
 
 - [#35](https://github.com/annotation-cache/downloadvepcache/pull/35) - Simplified code in `main.nf`
 - [#35](https://github.com/annotation-cache/downloadvepcache/pull/35) - Switched to a simplified contributing workflow with PRs directly to `main` (no `dev` branch)
+- [#36](https://github.com/annotation-cache/downloadvepcache/pull/36) - Template update for nf-core/tools version 4.2.1
 
 ### Removed
 
