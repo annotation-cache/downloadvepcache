@@ -1,40 +1,45 @@
+repository_type: pipeline
+
+nf_core_version: 4.2.1
+
 lint:
-  actions_awsfulltest: false
-  files_exist:
-    - .github/ISSUE_TEMPLATE/config.yml
-    - .github/workflows/awsfulltest.yml
-    - .github/workflows/awstest.yml
+  files_unchanged:
     - CODE_OF_CONDUCT.md
-    - assets/multiqc_config.yml
     - assets/nf-core-downloadvepcache_logo_light.png
-    - conf/igenomes.config
-    - conf/igenomes_ignored.config
-    - conf/modules.config
-    - conf/test_full.config
-    - docs/images/nf-core-downloadvepcache_logo_dark.png
     - docs/images/nf-core-downloadvepcache_logo_light.png
-  modules_config: false
-  multiqc_config: false
+    - docs/images/nf-core-downloadvepcache_logo_dark.png
+    - .github/ISSUE_TEMPLATE/bug_report.yml
+    - .github/PULL_REQUEST_TEMPLATE.md
+    - assets/email_template.txt
+    - docs/README.md
+    - assets/sendmail_template.txt
   nextflow_config:
     - manifest.name
     - manifest.homePage
-    - manifest.version
-    - params.input
-  nf_test_content: false
-  schema_lint: false
-nf_core_version: 4.0.2
-repository_type: pipeline
+  multiqc_config: false
+  files_exist:
+    - conf/igenomes.config
+    - conf/igenomes_ignored.config
+    - CODE_OF_CONDUCT.md
+    - assets/nf-core-downloadvepcache_logo_light.png
+    - docs/images/nf-core-downloadvepcache_logo_light.png
+    - docs/images/nf-core-downloadvepcache_logo_dark.png
+    - .github/ISSUE_TEMPLATE/config.yml
+    - .github/workflows/awstest.yml
+    - .github/workflows/awsfulltest.yml
+    - assets/multiqc_config.yml
+
 template:
-  author: Maxime U Garcia
-  description: Download VEP cache for annotation-cache
-  force: false
-  is_nfcore: false
-  name: downloadvepcache
   org: annotation-cache
-  outdir: .
+  name: downloadvepcache
+  description: Download VEP cache for annotation-cache
+  author: Maxime U Garcia
+  version: 0dev
+  force: true
+  outdir: /tmp/claude-1000/-home-maxulysse-workspace/b14d8730-6dd5-4b0c-99b5-8b91907130e4/scratchpad/tpl/downloadvepcache-4.2.1
   skip_features:
     - fastqc
     - igenomes
     - multiqc
     - seqera_platform
-  version: 0dev
+  is_nfcore: false
